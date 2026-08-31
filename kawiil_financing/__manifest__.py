@@ -17,14 +17,14 @@
 {
     # The app title in the Apps list. This is the text you search for when you
     # install the module.
-    "name": "TODO",
+    "name": "Jose's Loan Manager",
     # One line saying what the module does, shown under the title.
-    "summary": "TODO",
+    "summary": "A test module developed during the Odoo MasterClass",
     # Where the app is filed in the Apps list. Odoo splits this on "/", so
     # "Parent/Child" files it under a Child group inside Parent.
-    "category": "TODO",
+    "category": "Financial Fiction",
     # Your full name.
-    "maintainer": "TODO",
+    "maintainer": "Jose Marquez",
     # Where to find this module's source. Leave as is.
     "website": "https://github.com/odoo-trainings/development-masterclass",
     # This module's own version number. Leave as is.
