@@ -30,9 +30,15 @@ class LoanApplication(models.Model):
 
     # TODO: loan_term — Integer, labelled "Term (Months)", defaulting to 36.
 
+    loan_term = fields.Integer(string="Term (Months)", default =36 )
+    
+
     # TODO: interest_rate — Float, labelled "Interest Rate", required=True.
     #       Pass digits=(5, 2) to store 5 digits in total with 2 of them after
     #       the decimal point.
+
+    interest_rate = fields.Float ( string="Interest Rate", required=True, digits=(5,2) )
+
 
     # TODO: date_applied — Date, labelled "Application Date", defaulting to
     #       today: default=fields.Date.context_today
@@ -42,6 +48,8 @@ class LoanApplication(models.Model):
     #       rather than today: today gives the server's date, context_today
     #       gives the date in the user's own timezone, which is what someone
     #       filing an application late in the evening expects to see.
+
+    date_applied = fields.Date (string ="Application Date", default=fields.Date.context_today)
 
     # TODO: state — Selection offering, in this order: Draft, Sent, Approved,
     #       Rejected. The value is a list of (technical_key, label) tuples —
@@ -55,38 +63,69 @@ class LoanApplication(models.Model):
     #       be approved. copy=False makes Odoo fall back to the default
     #       instead of carrying the value over.
 
+    state = fields.Selection(selection=[
+        ('draft', 'Draft'),
+        ('sent', 'Sent'),
+        ('rejected', 'Rejected'),
+        ('approved', 'Approved'),
+    ], copy = False, default="draft")
+    
+
     # TODO: active — Boolean defaulting to True. Odoo treats this exact field
     #       name specially: setting it to False hides the record from list
     #       views instead of deleting it, which is how archiving works.
 
+    active = fields.Boolean(default= True)
+
+
+    
     # TODO: notes — Html, labelled "Internal Notes", copy=False. Notes are
     #       about one specific application, so they should not follow a
     #       duplicate to the new record.
+    
+    notes = fields.Html(String = "Internal Notes", copy=False)
+
 
     # --- Assignment 2.03: links to the rest of Odoo ------------------------
 
     # Worked example. Uncomment it when you reach 2.03. A Many2one holds a
     # link to one record in another model. comodel_name says which model, and
     # Odoo stores the other record's database id in a partner_id column.
-    # partner_id = fields.Many2one(
-    #     comodel_name="res.partner", string="Customer", required=True
-    # )
+    partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Customer", required=True
+    )
 
     # TODO: user_id — Many2one to "res.users", labelled "Salesperson",
     #       defaulting to whoever is logged in. self.env.user is the current
     #       user, so: default=lambda self: self.env.user
 
+    user_id = fields.Many2one(
+        comodel_name="res.users", string="Salesperson", default=lambda self: self.env.user
+    )
+
     # TODO: product_id — Many2one to "product.product", labelled "Motorcycle".
     #       product.product is the variant, the record that actually gets sold
     #       and stocked. product.template is the abstract product above it.
+
+    product_id = fields.Many2one (
+        comodel_name="product.product", string="Motorcycle"
+    )
+
 
     # TODO: currency_id — Many2one to "res.currency". A Monetary field cannot
     #       format an amount without knowing its currency, so give this one a
     #       default rather than leaving it empty:
     #       default=lambda self: self.env.company.currency_id
 
+    currency_id = fields.Many2one(
+        comodel_name="res.currency", default=lambda self: self.env.company.currency_id
+    )
+
     # TODO: loan_amount — Monetary, required=True, with
     #       currency_field="currency_id".
+
+    loan_amount = fields.Monetary( currency_field="currency_id" )
+    
 
     # TODO: down_payment — Monetary, with currency_field="currency_id".
     #
@@ -94,6 +133,8 @@ class LoanApplication(models.Model):
     #       the right number of decimals. The field named in currency_field
     #       has to exist on this same model, which is why currency_id comes
     #       first.
+
+    loan_amount = fields.Monetary( currency_field="currency_id" )
 
     # --- Assignment 2.08: categorisation and compliance --------------------
 
