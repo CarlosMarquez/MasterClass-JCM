@@ -57,5 +57,13 @@
             the Mitchell Admin account that ships with demo data.
         -->
 
+        <record id="group_kawiil_financing_admin" model="res.groups">
+            <field name="name">Admin</field>
+            <field name="sequence">10</field>
+            <field name="privilege_id" ref="privilege_financing"/>
+            <field name="implied_ids" eval="[(4, ref('group_kawiil_financing_user'))]"/>
+            <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
     </data>
 </odoo>
